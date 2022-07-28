@@ -72,7 +72,10 @@
 ;; --- Initialize DAO
 
 (define-public (init (proposal <proposal-trait>))
-	(let ((sender tx-sender))
+	(let 
+		(
+			(sender tx-sender)
+		)
 		(asserts! (is-eq sender (var-get executive)) ERR_UNAUTHORIZED)
 		(var-set executive (as-contract tx-sender))
 		(print {event: "init", proposal: proposal})
@@ -83,7 +86,10 @@
 ;; --- Extension requests
 
 (define-public (request-extension-callback (extension <extension-trait>) (memo (buff 34)))
-	(let ((sender tx-sender))
+	(let
+		(
+			(sender tx-sender)
+		)
 		(asserts! (and (is-extension contract-caller) (is-eq contract-caller (contract-of extension))) ERR_INVALID_EXTENSION)
 		(as-contract (contract-call? extension callback sender memo))
 	)

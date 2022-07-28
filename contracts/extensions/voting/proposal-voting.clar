@@ -23,8 +23,8 @@
 (define-constant ERR_UNAUTHORIZED_VOTER (err u2507))
 (define-constant ERR_ALREADY_VOTED (err u2508))
 (define-constant ERR_UNKNOWN_PARAMETER (err u2509))
-(define-constant ERR_CANT_SELF_DELEGATE (err u2510))
-(define-constant ERR_NOTHING_TO_REVOKE (err u2511))
+(define-constant ERR_INVALID_DELEGATION (err u2510))
+(define-constant ERR_DELEGATE_NOT_FOUND (err u2511))
 (define-constant ERR_UNAUTHORIZED_DELEGATE (err u2512))
 
 (define-map Proposals
@@ -65,33 +65,9 @@
 (define-public (add-proposal (proposal <proposal-trait>) (data {startBlockHeight: uint, endBlockHeight: uint, proposer: principal}))
 	(begin
 		(try! (is-dao-or-extension))
-		(asserts!
-      (is-none (contract-call? .mega-dao executed-at proposal))
-      ERR_PROPOSAL_ALREADY_EXECUTED
-    )
-    (asserts!
-      (map-insert Proposals (contract-of proposal)
-        (merge
-          {
-            votesFor: u0,
-            votesAgainst: u0,
-            concluded: false,
-            passed: false
-          }
-          data
-        )
-      )
-      ERR_PROPOSAL_ALREADY_EXISTS
-    )
-    (print
-      {
-        event: "propose",
-        proposal: proposal,
-        startBlockHeight: (get startBlockHeight data),
-        endBlockHeight: (get endBlockHeight data),
-        proposer: tx-sender
-      }
-    )
+		(asserts! (is-none (contract-call? .mega-dao executed-at proposal)) ERR_PROPOSAL_ALREADY_EXECUTED)
+    (asserts! (map-insert Proposals (contract-of proposal) (merge {votesFor: u0, votesAgainst: u0, concluded: false, passed: false} data)) ERR_PROPOSAL_ALREADY_EXISTS)
+    (print {event: "propose", proposal: proposal, startBlockHeight: (get startBlockHeight data), endBlockHeight: (get endBlockHeight data), proposer: tx-sender})
 		(ok true)
 	)
 )
@@ -198,18 +174,18 @@
 
 (define-public (delegate (who principal))
 	(begin
-		(asserts! (or (not (is-eq tx-sender who)) (not (is-eq contract-caller who))) ERR_CANT_SELF_DELEGATE)
+		(asserts! (or (not (is-eq tx-sender who)) (not (is-eq contract-caller who))) ERR_INVALID_DELEGATION)
 		(print {event: "delegate", who: who, delegator: tx-sender})
 		(map-set Delegators tx-sender true)
 		(ok (map-set Delegates tx-sender who))
 	)
 )
 
-(define-public (revoke-delegation (who principal))
+(define-public (revoke-delegate (who principal))
 	(begin
 		(asserts! (or (is-eq tx-sender who) (is-eq contract-caller who)) ERR_UNAUTHORIZED)
-		(asserts! (is-some (map-get? Delegates who)) ERR_NOTHING_TO_REVOKE)
-		(print {event: "revoke-delegation", who: who, delegator: tx-sender})
+		(asserts! (is-some (map-get? Delegates who)) ERR_DELEGATE_NOT_FOUND)
+		(print {event: "revoke-delegate", who: who, delegator: tx-sender})
 		(map-delete Delegators tx-sender)
 		(ok (map-delete Delegates who))
 	)

@@ -20,45 +20,45 @@ path = "contracts/mega-dao.clar"
 depends_on = ["proposal-trait", "extension-trait"]
 
 # -- Extensions
-[contracts.mega-token]
-path = "contracts/extensions/membership/mega-token.clar"
+[contracts.token]
+path = "contracts/extensions/membership/token.clar"
 depends_on = ["mega-dao", "sip010-ft-trait"]
 
-[contracts.mde-snapshot-voting]
-path = "contracts/extensions/voting/mde-snapshot-voting.clar"
-depends_on = ["mega-dao", "proposal-trait", "extension-trait", "voting-trait", "sip010-ft-trait", "mega-token"]
+[contracts.proposal-voting]
+path = "contracts/extensions/voting/proposal-voting.clar"
+depends_on = ["mega-dao", "proposal-trait", "extension-trait", "sip010-ft-trait", "token"]
 
-[contracts.mde-proposal-submission]
-path = "contracts/extensions/proposal-submissions/mde-proposal-submission.clar"
-depends_on = ["mega-dao", "extension-trait", "mde-snapshot-voting"]
+[contracts.proposal-submission]
+path = "contracts/extensions/proposal-submissions/proposal-submission.clar"
+depends_on = ["mega-dao", "extension-trait", "proposal-voting"]
 
-[contracts.mde-emergency-proposals]
-path = "contracts/extensions/executive-team/mde-emergency-proposals.clar"
-depends_on = ["mega-dao", "extension-trait", "mde-snapshot-voting"]
+[contracts.emergency-proposals]
+path = "contracts/extensions/executive-team/emergency-proposals.clar"
+depends_on = ["mega-dao", "extension-trait", "proposal-voting"]
 
-[contracts.mde-emergency-execute]
-path = "contracts/extensions/executive-team/mde-emergency-execute.clar"
+[contracts.emergency-execute]
+path = "contracts/extensions/executive-team/emergency-execute.clar"
 depends_on = ["mega-dao", "extension-trait"]
 
-[contracts.mde-vault]
-path = "contracts/extensions/vaults/mde-vault.clar"
+[contracts.vault]
+path = "contracts/extensions/vaults/vault.clar"
 depends_on = ["mega-dao", "extension-trait", "sip009-nft-trait", "sip010-ft-trait"]
 # -- End of Extensions
 
 # -- Bootstrap Proposals
 [contracts.mdp-megadao]
 path = "contracts/proposals/bootstraps/mdp-megadao.clar"
-depends_on = ["mega-dao", "proposal-trait", "mde-vault", "mde-emergency-execute", "mde-emergency-proposals", "mde-proposal-submission", "mde-snapshot-voting", "mega-token"]
+depends_on = ["mega-dao", "proposal-trait", "vault", "emergency-execute", "emergency-proposals", "proposal-submission", "proposal-voting", "token"]
 # -- End of Bootstrap Proposals
 
 # -- Transfer Proposals
 [contracts.mdp-transfer-ft]
 path = "contracts/proposals/transfers/mdp-transfer-ft.clar"
-depends_on = ["proposal-trait", "mde-vault"]
+depends_on = ["proposal-trait", "vault"]
 
 [contracts.mdp-transfer-stx]
 path = "contracts/proposals/transfers/mdp-transfer-stx.clar"
-depends_on = ["proposal-trait", "mde-vault"]
+depends_on = ["proposal-trait", "vault"]
 # -- End of Transfer Proposals
 
 # -- Traits

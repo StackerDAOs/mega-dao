@@ -15,7 +15,7 @@
 
 (define-public (execute (sender principal))
 	(begin
-		(try! (contract-call? .mde-vault transfer (* MICRO u100) 'STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6))
+		(try! (contract-call? .vault transfer (* MICRO u100) 'STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6))
 
 		(print {event: "execute", sender: sender})
 		(ok true)

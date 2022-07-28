@@ -12,6 +12,7 @@ const call = (method: string, args: any[], address: string) => {
 };
 
 export const votingApi = (chain: Chain, { address }: Account) => ({
+  delegate: (who: string) => call('delegate', [types.principal(who)], address),
   vote: (vote: any, proposal: any, delegator: any) =>
     call(
       'vote',

@@ -121,7 +121,7 @@
 		(asserts! (< block-height (get endBlockHeight proposalData)) ERR_PROPOSAL_INACTIVE)
 		(asserts! (is-eq u0 (get-current-total-votes proposal voter)) ERR_ALREADY_VOTED)
 		(asserts! (can-vote-on-behalf tx-sender delegator) ERR_UNAUTHORIZED_DELEGATE)
-		(asserts! (can-vote voter (try! (get-parameter "voteThreshold")) (try! (get-parameter "voteThreshold"))) ERR_UNAUTHORIZED_VOTER)
+		(asserts! (can-vote voter (get startBlockHeight proposalData) (try! (get-parameter "voteThreshold"))) ERR_UNAUTHORIZED_VOTER)
 		(map-set MemberTotalVotes {proposal: proposal, voter: voter, governanceToken: .token}
 			(+ (get-current-total-votes proposal voter) amount)
 		)

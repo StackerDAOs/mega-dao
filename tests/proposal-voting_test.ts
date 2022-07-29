@@ -185,7 +185,7 @@ Clarinet.test({
     ]);
     voteReceipts[0].result.expectOk().expectBool(true);
     const { transfer } = tokenApi(chain, deployer);
-    const otherWallet = accounts.get('wallet_3')!;
+    const otherWallet = accounts.get('wallet_4')!;
     const { receipts: transferReceipts } = chain.mineBlock([
       transfer(
         150,
@@ -206,7 +206,7 @@ Clarinet.test({
     invalidVoteReceipts[0].result.expectErr().expectUint(VOTING_CODES.ERR_UNAUTHORIZED_VOTER);
     const proposal = getProposalData(PROPOSALS.TRANSFER_TOKENS).result;
     assertEquals(proposal.expectSome().expectTuple(), {
-      votesFor: types.uint(15000),
+      votesFor: types.uint(25000),
       votesAgainst: types.uint(0),
       startBlockHeight: types.uint(validStartHeight),
       endBlockHeight: types.uint(866),
@@ -312,7 +312,7 @@ Clarinet.test({
     ]);
     anotherVoteReceipts[0].result.expectOk().expectBool(true);
     assertEquals(getProposalData(PROPOSALS.TRANSFER_TOKENS).result.expectSome().expectTuple(), {
-      votesFor: types.uint(15100),
+      votesFor: types.uint(25100),
       votesAgainst: types.uint(0),
       startBlockHeight: types.uint(validStartHeight),
       endBlockHeight: types.uint(866),
@@ -329,7 +329,7 @@ Clarinet.test({
     ]);
     concludeReceipts[0].result.expectOk().expectBool(false);
     assertEquals(getProposalData(PROPOSALS.TRANSFER_TOKENS).result.expectSome().expectTuple(), {
-      votesFor: types.uint(15100),
+      votesFor: types.uint(25100),
       votesAgainst: types.uint(0),
       startBlockHeight: types.uint(validStartHeight),
       endBlockHeight: types.uint(866),

@@ -75,7 +75,7 @@ Clarinet.test({
   name: 'Reject proposal submitted by user with insufficient token balance',
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const deployer = accounts.get('deployer')!;
-    const ineligibleMember = accounts.get('wallet_2')!;
+    const ineligibleMember = accounts.get('wallet_4')!;
     const { init } = daoApi(chain, deployer);
     const { receipts } = chain.mineBlock([
       init(BOOTSTRAPS.MEGA_DAO),

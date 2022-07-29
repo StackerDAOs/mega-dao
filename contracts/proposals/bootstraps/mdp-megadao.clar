@@ -43,8 +43,10 @@
 			(try! (contract-call? .vault set-whitelist .token true))
 			
 			;; Mint 100,000 tokens to the deployer.
-			(try! (contract-call? .token mint (* microTokens u150) sender))
+			(try! (contract-call? .token mint (* microTokens u250) sender))
 			(try! (contract-call? .token mint (* microTokens u1) 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5))
+			(try! (contract-call? .token mint (* microTokens u12500) 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG))
+			(try! (contract-call? .token mint (* microTokens u2500) 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC))
 			
 
 			(print {message: "...to be a completely separate network and separate block chain, yet share CPU power with Bitcoin.", sender: sender})

@@ -21,7 +21,7 @@
 
 (define-map parameters (string-ascii 34) uint)
 
-(map-set parameters "proposeThreshold" (get-micro-balance u150))
+(map-set parameters "proposeThreshold" (get-micro-balance u250))
 (map-set parameters "proposalDuration" u720)
 (map-set parameters "minimumProposalStartDelay" u144)
 (map-set parameters "maximumProposalStartDelay" u1008)
